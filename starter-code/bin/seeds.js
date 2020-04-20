@@ -3,7 +3,7 @@ const Celebrity = require("../models/celebrity")
 
 const DB_Name = "celibrity-project"
 
-mongoose.connect("mongodb://localhost/{DB_NAME}",{
+mongoose.connect(`mongodb://localhost/${DB_Name}`,{
 useCreateIndex: true,
 useNewUrlParser: true,
 useUnifiedTopology: true
