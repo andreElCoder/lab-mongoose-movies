@@ -18,6 +18,46 @@ router.get('/celebrities', (req, res, next) => {
   
 })
 
+router.post('/celebrities', (req, res, next) => {
+
+  const {name,occupation,catchPhrase} = req.body
+  const newCelebrity = new Celebrity({name,occupation,catchPhrase})
+  newCelebrity.save()
+    .then(CelebritySavedOnDB => {
+      console.log('Celebry added on DB:',CelebritySavedOnDB)
+      Celebrity.find()
+      .then(allTheCelebritiesFromDB => {
+        console.log('Retrieved celebrities from DB:', allTheCelebritiesFromDB)
+        res.render('celebrities/celebrities',{celebrities: allTheCelebritiesFromDB})
+      })
+      .catch(error => {
+        console.log('Error while getting the celebrities from the DB: ', error)
+      })
+    })
+    .catch(error => {
+      console.log('Error while saving the celebry on the DB: ', error)
+      res.render(`celebrities/new`)
+    })
+  
+})
+
+router.post('/celebrities/:id/delete',(req,res)=>{
+  const id = req.params.id
+
+  Celebrity.findByIdAndRemove(id)
+  .then(()=>{
+    Celebrity.find()
+    .then(allTheCelebritiesFromDB => {
+      console.log('Retrieved celebrities from DB:', allTheCelebritiesFromDB)
+      res.render('celebrities/celebrities',{celebrities: allTheCelebritiesFromDB})
+    })
+})
+  .catch(err =>{
+    console.log("some problem removind the celebrity")
+    res.render("celebrities/celebrities")
+  })
+})
+
 router.get('/celebrities/new', (req, res, next) => {
   
     res.render(`celebrities/new`)

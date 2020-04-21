@@ -2,5 +2,7 @@
 <p>
     <a href="/celebrities/{{this.id}}">{{this.name}}<a>
 </p>
-
+<form action="/celebrities/{{this.id}}/delete" method="POST">
+    <button>Delete {{this.name}}</button>
+</form>
 {{/each}}
